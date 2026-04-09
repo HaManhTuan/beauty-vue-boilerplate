@@ -1,0 +1,17 @@
+---
+description: Tailwind / theme — token, @theme, cấu hình build.
+globs: "**/tailwind.config.*"
+alwaysApply: false
+---
+
+# Tailwind config
+
+## Skill
+
+- `.agents/skills/tailwind-css-patterns/SKILL.md` + `references/` (responsive, a11y, performance) khi chỉnh theme hoặc plugin.
+
+## Nguyên tắc team
+
+- **Token & theme:** thay đổi màu/spacing/font ảnh hưởng toàn app — ghi chú ngắn trong PR (hoặc changelog nội bộ) để design/QA biết.
+- **Không phá vỡ v4/v3:** giữ đúng phiên bản Tailwind dự án đang dùng; kiểm tra `package.json` và doc skill (v4 CSS-first vs config cũ).
+- **Sau khi sửa config:** chạy build/dev một lần để bắt lỗi plugin hoặc đường dẫn content.

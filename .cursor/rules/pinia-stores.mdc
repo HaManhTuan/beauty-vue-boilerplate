@@ -1,0 +1,23 @@
+---
+description: Pinia stores — reactivity, setup store, skill map.
+globs: "**/stores/**"
+alwaysApply: false
+---
+
+# Pinia (`**/stores/**`)
+
+## Skill bắt buộc tham chiếu
+
+- `.agents/skills/vue-pinia-best-practices/SKILL.md` và các file trong `reference/` mà SKILL trỏ tới (destructuring, `getActivePinia`, setup store return state, v.v.).
+
+## Nguyên tắc team
+
+- **Setup store:** return đủ state/getters/actions mà DevTools và SSR cần; không “quên” field khiến debug khó.
+- **Reactivity:** không destructure trực tiếp state từ store rồi kỳ vọng UI cập nhật — dùng `storeToRefs` hoặc truy cập qua `store.xxx` theo tài liệu skill.
+- **Phạm vi:** state dùng nhiều domain → tách store hoặc module rõ ranh giới; tránh một store “god object” phình theo thời gian.
+- **Bất đồng bộ:** pattern gọi API trong action; xử lý lỗi/loading thống nhất với phần còn lại của app (không mỗi nơi một kiểu).
+
+## Khi nào xem thêm
+
+- Lọc/search cần đồng bộ URL hoặc refresh: xem mục state patterns trong skill Pinia.
+- Ephemeral UI-only state có thể thuộc component/composable — không ép vào global store nếu không cần chia sẻ.

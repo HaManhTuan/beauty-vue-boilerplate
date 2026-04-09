@@ -1,0 +1,23 @@
+---
+alwaysApply: true
+description: >-
+  Form UX + validation behaviors (submit/change), placeholder color sync, and hover/loading cursor rules.
+---
+
+# Form UX & Validation Spec
+
+## Validation behavior
+
+- Always keep the `Submit` button enabled, except while submitting (`loading` state).
+- When user clicks `Submit`, validate the entire form (all items/fields), not only the ones that were modified.
+- Validate on change and show the error message directly under the field.
+- When the user enters a value that satisfies validation, the field error message must disappear (no error shown anymore).
+
+## Placeholder color
+
+- Placeholder text color must be light gray and consistent across all screens.
+
+## Hover behavior
+
+- On hover: dropdowns, buttons, and checkboxes should show the hand cursor (`cursor: pointer`).
+- When the `Submit` button is in `loading` state, the button must be disabled and show `cursor: not-allowed`.

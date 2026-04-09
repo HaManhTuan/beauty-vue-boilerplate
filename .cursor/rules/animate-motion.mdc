@@ -1,0 +1,25 @@
+---
+description: Animation — Animate.css v4, Vue, a11y prefers-reduced-motion.
+globs: "**/*.vue,**/*.css"
+alwaysApply: false
+---
+
+# Animation & motion (`.vue`, `.css`)
+
+## Skill & thư viện dự án
+
+- `.agents/skills/animate/SKILL.md` — chiến lược motion; **mặc định dùng [Animate.css](https://animate.style/)** (`animate.css`, import trong `main.ts`).
+- **v4:** luôn kèm **`animate__animated`** + một class **`animate__<tên>`** (ví dụ `animate__fadeInUp`); chỉnh `--animate-duration` / delay / speed utility theo tài liệu thư viện.
+
+## Vue
+
+- Có thể kết hợp **`<Transition>`** / **`<TransitionGroup>`** với class Animate hoặc gán class động + sự kiện `animationend` khi cần replay.
+- **Hiệu năng:** ưu tiên animation dựa trên `transform` / `opacity` (Animate.css keyframes thường phù hợp); tránh phủ attention seeker không cần thiết.
+
+## A11y
+
+- Animate.css đã tôn trọng **`prefers-reduced-motion`** — **không** ghi đè hoặc tắt hành vi đó; mọi CSS motion bổ sung cũng phải tôn trọng reduced motion.
+
+## Team
+
+- Ít animation có chủ đích tốt hơn lạm dụng; motion phải có lý do (feedback, định hướng, giảm giật).

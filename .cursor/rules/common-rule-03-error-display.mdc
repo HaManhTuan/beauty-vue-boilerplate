@@ -1,0 +1,16 @@
+---
+alwaysApply: true
+description: >-
+  FE error display rules (validation border/message styling) and API-fail error handling (toast + BE message).
+---
+
+# Error Display (FE validation vs API failure)
+
+## FE validation error (client-side)
+- Placement: show validation message directly under the corresponding input field.
+- Style: message text color is red.
+- Style: input field border color is red when there is a validation error.
+
+## API failure error (server-side)
+- When API call fails: show a toast notification.
+- Toast message content: use the error message returned from BE.

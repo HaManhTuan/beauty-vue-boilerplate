@@ -1,0 +1,13 @@
+---
+description: Chuẩn xử lý lỗi, logging, và thông điệp người dùng nhất quán.
+alwaysApply: true
+---
+
+# Error Handling & Observability
+
+- **Không nuốt lỗi:** cấm `catch {}` rỗng; mọi lỗi phải được xử lý, log, hoặc rethrow có ngữ cảnh.
+- **Phân tầng lỗi rõ:** service trả lỗi có cấu trúc; UI chỉ quyết định hiển thị thông điệp/empty state/retry.
+- **Thông điệp thân thiện:** không hiển thị raw error từ server trực tiếp cho người dùng.
+- **Một chuẩn log:** dùng helper/logging utility chung; tránh `console.log` rải rác trong code production.
+- **Luồng async có trạng thái:** mọi call bất đồng bộ quan trọng cần `loading/success/error` rõ ràng để tránh UI mập mờ.
+- **Retry có kiểm soát:** chỉ retry khi phù hợp (network/transient), có giới hạn số lần và backoff cơ bản.

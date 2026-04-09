@@ -1,0 +1,26 @@
+---
+description: Quy tắc kiến trúc frontend sạch cho Vue codebase.
+alwaysApply: true
+---
+
+# Frontend Architecture Guardrails
+
+## Mục tiêu
+
+- Giữ code dễ đọc, dễ test, dễ mở rộng theo feature; tránh coupling ngầm giữa UI và business logic.
+
+## Quy tắc bắt buộc
+
+- **Type tách riêng:** không khai báo type/interface dài hoặc type dùng lại trực tiếp trong `.vue`; đặt ở `src/types/**` hoặc file `types.ts` cùng domain rồi import vào component/composable/store.
+- **View không chứa nghiệp vụ nặng:** `views/` và component UI tập trung render + orchestration; business logic chuyển sang `composables/`, `services/`, `stores/`.
+- **Composable đúng vai trò:** `composables/use*.ts` chứa logic tái sử dụng theo lifecycle/reactivity; không nhét HTTP client hard-code nếu đã có layer service.
+- **Service cho I/O:** gọi API, map DTO, chuẩn hóa lỗi đặt trong `services/`; component/store không gọi `fetch/axios` trực tiếp nếu đã có service tương ứng.
+- **Store giữ state chia sẻ:** Pinia chỉ chứa state dùng chung/luồng app; state thuần trình bày cục bộ để lại component/composable.
+- **Import một chiều:** ưu tiên luồng `views -> components -> composables -> services -> api/types/utils`; tầng thấp không import ngược tầng cao.
+- **Tránh god file:** file vượt ngưỡng khó bảo trì (nhiều trách nhiệm, nhiều nhánh) phải tách theo module con thay vì tiếp tục mở rộng.
+- **Tên và vị trí nhất quán:** dùng hậu tố rõ nghĩa (`*View.vue`, `*Button.vue`, `use*.ts`, `*Service.ts`, `*.types.ts`) để đọc cây thư mục là hiểu vai trò.
+
+## Quy tắc thay đổi
+
+- Khi sửa bug nhỏ, không refactor diện rộng ngoài phạm vi task nếu không được yêu cầu.
+- Khi thêm feature mới, ưu tiên mở rộng theo cấu trúc sẵn có của domain thay vì tạo pattern mới song song.

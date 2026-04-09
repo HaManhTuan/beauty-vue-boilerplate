@@ -1,0 +1,12 @@
+---
+alwaysApply: true
+description: >-
+  Filter/search behavior: trigger search on button click or Enter key; always refetch; clear resets to default.
+---
+
+# Filter / Search Behavior
+
+- Search trigger: when clicking the `Search` button, perform the search.
+- Search trigger: when pressing `Enter` inside any filter textbox, perform the search.
+- Refetch behavior: every click/search action must call the API again, even if the params are the same as the previous request.
+- Clear behavior: when the user clears filters, reset them back to the default values.

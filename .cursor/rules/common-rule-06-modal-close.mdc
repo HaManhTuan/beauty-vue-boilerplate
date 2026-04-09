@@ -1,0 +1,14 @@
+---
+alwaysApply: true
+description: >-
+  Modal close: explicit Close/Cancel; Esc where enabled. Form CRUD dialogs disable overlay + Esc per .cursorrules.
+---
+
+# Modal Close Behavior
+
+## Close timing
+
+- Close via explicit controls: **`Close` / `Cancel` / `X`** as designed for that dialog.
+- **`Esc`**: enabled for **confirm** and **info/read-only** dialogs unless a component overrides it; **disabled** for **create/edit form** dialogs — see **`.cursorrules`** and **`fe-common-rule-06-modal-close.md`**.
+- **Click outside**: follow **`fe-common-rule-06-modal-close.md`** (typically **off** for form CRUD and delete confirm).
+- Other actions must **not** close the modal before an intentional close path (unless product spec says otherwise).

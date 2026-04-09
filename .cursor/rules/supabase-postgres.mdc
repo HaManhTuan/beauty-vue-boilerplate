@@ -1,0 +1,19 @@
+---
+description: Postgres / Supabase — query, schema, RLS, pooling; skill map.
+globs: "**/supabase/**,**/*.sql,**/migrations/**"
+alwaysApply: false
+---
+
+# Supabase & Postgres (`supabase/`, `*.sql`, `migrations/`)
+
+## Skill bắt buộc tham chiếu
+
+- `.agents/skills/supabase-postgres-best-practices/SKILL.md` — ưu tiên theo bảng category (query → conn → security → schema → …).
+- Chi tiết từng chủ đề: `references/*.md` trong skill đó; bắt đầu từ `references/_sections.md` nếu cần lộ trình đọc.
+
+## Nguyên tắc team
+
+- **Query & index:** có thay đổi hiệu năng — đối chiếu rule `query-*` / `schema-*` (index, EXPLAIN, N+1).
+- **RLS & security:** policy và quyền — đối chiếu `security-*` trước khi merge.
+- **Kết nối / pool:** client hoặc serverless — đối chiếu `conn-*` (giới hạn, pooling, timeout).
+- **Không nhân đôi** tài liệu dài trong PR — trích pattern đúng từ `references/` khi review.

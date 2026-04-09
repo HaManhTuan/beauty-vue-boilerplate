@@ -1,0 +1,322 @@
+# Cursor Rules
+
+## Component Creation Rules
+
+### When Adding Components
+
+**CRITICAL: Storybook stories are NOT required when adding components**
+
+- ❌ DO NOT create Storybook stories when adding new components
+- ❌ DO NOT create `.stories.tsx` or `.stories.vue` files
+- ✅ Focus on component functionality and implementation
+- ✅ Only create Storybook stories if explicitly requested by the user
+
+### Component Structure
+
+When creating new components:
+
+1. **Atoms** (`src/components/atoms/`)
+   - Base shadcn-vue components
+   - Use `pnpm dlx shadcn-vue@latest add <component>` to install
+   - No Storybook required
+
+2. **Molecules** (`src/components/molecules/`)
+   - Complex components composed from atoms
+   - Custom business logic and compositions
+   - No Storybook required unless explicitly requested
+
+3. **Views / feature modules** (`src/views/` and `src/views/{module}/`)
+   - Routed pages and module-specific screens (list, detail, module form modals)
+   - Prefer **`src/views/{module}/`** for feature-specific modals and pages (see **`.agents/rules/structure.md`**)
+   - No Storybook required
+
+### General Component Guidelines
+
+- Use TypeScript for all new files
+- Follow Vue 3 Composition API patterns
+- Use proper typing, avoid `any`
+- Use Tailwind CSS for styling
+- Use `cn()` utility from `@/lib/utils` for conditional classes
+- Follow shadcn-vue styling patterns
+- Use proper component layering (**atoms → molecules → views** for pages; generic Atomic Design docs may say “containers” — in this repo that maps to **`src/views/{module}/`**)
+
+### Package Management
+
+- **ALWAYS use `pnpm`** as the package manager
+- Never use `npm` or `yarn`
+- When installing dependencies: `pnpm add <package>`
+- When installing dev dependencies: `pnpm add -D <package>`
+
+### shadcn-vue Component Installation
+
+**CRITICAL: Always use the CLI, never generate code manually**
+
+```bash
+# Install a shadcn-vue component
+pnpm dlx shadcn-vue@latest add <component-name>
+```
+
+### Custom Styles & CSS Classes
+
+**When using custom styles:**
+
+- ✅ **ALWAYS check `src/style.css` first** before creating inline Tailwind classes with arbitrary values (e.g., `w-[365px]`, `h-[40px]`)
+- ✅ If a style already exists in `style.css`, use the existing class
+- ✅ If a style doesn't exist but is reusable/common, add it to `style.css` in the `@layer utilities` section
+- ✅ Only use inline Tailwind arbitrary values for truly one-off, component-specific styles
+- ✅ Common reusable styles (like filter input dimensions, common button sizes, etc.) should be in `style.css`
+
+Example:
+
+```css
+/* In style.css */
+.filter-input {
+  width: 365px;
+  height: 40px;
+}
+```
+
+```vue
+<!-- In component -->
+<Input class="filter-input bg-white border border-gray-300" />
+```
+
+### Code Quality & Linting
+
+**After completing ANY task, ALWAYS:**
+
+1. Run lint and surface issues (see output):
+
+```bash
+pnpm lint
+```
+
+2. **Report** lint/type problems to the user; **do not** apply bulk auto-fixes unless the user asks to fix them in the same task.
+3. If you use `pnpm lint --fix`, do so **only** when the user explicitly wants fixes applied — not by default after every task.
+
+### DO NOT
+
+- ❌ Create Storybook stories when adding components
+- ❌ Manually create shadcn-vue component code
+- ❌ Use npm or yarn
+- ❌ Auto-fix lint issues without the user asking
+- ❌ Skip the linting step
+- ❌ Use `any` type excessively
+- ❌ Create documentation after completing tasks (unless explicitly requested)
+- ❌ Hardcode text directly in code (use i18n if available)
+
+### Dialog Component Guidelines
+
+**When using Dialog components:**
+
+- ✅ Use `DialogContent` from `@/components/atoms/dialog` for all dialogs
+- ✅ Control click outside behavior using `closeOnClickOutside` prop:
+  - Set `closeOnClickOutside={false}` to prevent dialog from closing when clicking outside
+  - Default is `true` (dialog closes on outside click)
+- ✅ Control ESC key behavior using `closeOnEscape` prop:
+  - Set `closeOnEscape={false}` to prevent dialog from closing when pressing ESC key
+  - Default is `true` (dialog closes on ESC key)
+- ✅ Always handle dialog state properly:
+  - Use `v-model` or `:open` and `@update:open` for controlled dialogs
+  - Clear form data and validation when dialog closes (in `handleOpenChange` or watcher)
+- ✅ Use `showCloseButton` prop to control close button visibility (default: `true`)
+
+Example:
+
+```vue
+<DialogContent :close-on-click-outside="false" :close-on-escape="false" :show-close-button="true">
+  <!-- Dialog content -->
+</DialogContent>
+```
+
+### ConfirmDialog Component Guidelines
+
+**When using ConfirmDialog for delete confirmations:**
+
+- ✅ Use `ConfirmDialog` from `@/components/molecules/confirm-dialog` for delete confirmations
+- ✅ Follow the standard pattern used in `StoreManagement.vue`:
+  ```vue
+  <ConfirmDialog
+    v-model="isDeleteDialogOpen"
+    title="削除確認"
+    :message="`{Entity}を削除します。よろしいですか。\n「{Entity}ID : ${selectedItem?.id}」\n「{Entity}名: ${selectedItem?.name}」`"
+    confirm-text="はい"
+    cancel-text="いいえ"
+    variant="destructive"
+    :loading="isDeleting"
+    :show-cancel-icon="true"
+    :show-confirm-icon="true"
+    @confirm="handleDeleteConfirm"
+    @cancel="handleDeleteCancel"
+  />
+  ```
+- ✅ In `handleDeleteConfirm`:
+  - Call mutation hook
+  - Show success toast (in view only; do not show toast inside mutation)
+  - Close dialog and clear selected item
+  - Do **not** call `refetch()`; list refetch is handled by mutation `onSuccess` via `queryClient.invalidateQueries`
+- ✅ Always include entity ID and name in the confirmation message
+- ✅ Use `はい` for confirm text and `いいえ` for cancel text (Japanese standard)
+
+### Form & CRUD Behavior Guidelines (Common for all screens)
+
+**When implementing create/edit/delete flows with dialogs:**
+
+- ✅ **Success behavior (common rule)**:
+  - On **create / edit / delete success**, always (in the **view component**):
+    - Show a **success toast** (use `useSuccessToast` composable)
+    - **Close the dialog / confirm modal** and clear any selected item
+  - **Do not** call `refetch()` in the view; mutation hooks should use `queryClient.invalidateQueries` in `onSuccess` so the list refetches automatically
+  - **Do not** show success toast inside mutation hooks; handle toast only in the view (e.g. in `handleFormSuccess`, `handleDeleteConfirm`)
+- ✅ **Error behavior (common rule)**:
+  - On **create / edit / delete failure**:
+    - Rely on the **global HTTP client interceptors** to show **error toasts**
+    - Keep **form dialogs open** so the user can fix input and retry
+    - For **delete**, close the confirm dialog after the mutation finishes (success or error) and clear any selected item
+- ✅ **Validation behavior** (align with **common-rule-01**):
+  - Keep the **primary Submit** button **enabled** whenever the form is not submitting (including **edit** with **no** field changes, and when the form is **invalid**).
+  - On **Submit** click, validate the **entire** form and show errors for invalid fields.
+  - Validate on **change** and show inline errors under the related field.
+  - When the value becomes valid, clear that field’s error.
+  - Use `isFormValid` only inside submit handlers / to decide whether to call the API — **not** to disable the submit button.
+- ✅ **Dialog close behavior**:
+  - Do **not** allow closing form dialogs via **ESC key** or **click outside**:
+    - Always set `:close-on-click-outside="false"` and `:close-on-escape="false"` on `DialogContent` for create/edit forms
+  - When a dialog is closed (via cancel or success):
+    - **Clear form values and validation state** in a dedicated `resetForm()` helper
+    - This applies both to create and edit modes
+- ✅ **Edit mode submit** (common-rule-01):
+  - Do **not** disable submit when the user has made **no** changes in edit mode; **Submit** stays enabled (except while `isSubmitting`).
+  - You may still use `hasFormChanges` for **discard-on-close** or **unsaved** warnings only — not for disabling the primary submit button.
+- ✅ **Error visibility**:
+  - Validation errors should be **shown inline under inputs** when:
+    - The field has been blurred at least once (touched), **or**
+    - The user attempted **Submit** and the field is invalid (full-form validation on submit)
+
+### TanStack Form & shared validators
+
+**When implementing forms (search forms, create/edit modals):**
+
+- ✅ Use **TanStack Form** (`useForm` from `@tanstack/vue-form`) for form state; do not use `reactive` + `toRefs` for form state.
+- ✅ Use validators from the **shared file** `src/lib/validators`. If a validation rule you need does **not** exist there, **add it to `src/lib/validators/index.ts` first**, then use it in the component. Do **not** define validation schema inline in the component when an equivalent can live in the shared file.
+- ✅ Reference: See `docs/examples/tanstack-form-example.vue` for a minimal form using TanStack Form + shared validators.
+
+### Table Action Column Guidelines (Common for all list pages)
+
+**When implementing action columns (Edit/Delete) in tables:**
+
+- ✅ **Column layout**:
+  - Name the column header `操作`
+  - Center-align the column (`align: 'center'` or `justify-center`)
+  - Use a container like `class="flex items-center justify-center gap-2"` inside the cell
+- ✅ **Buttons & labels**:
+  - Use `Button` atoms for actions with clear Japanese labels:
+    - **Edit**: label `編集` with pencil icon (`Pencil` or `Edit`)
+    - **Delete**: label `削除` with trash icon (`Trash2`)
+  - Follow the visual style used in `StoreManagement.vue` (canonical example) for spacing, icon size, and colors
+- ✅ **Interaction behavior**:
+  - Always stop row click propagation for action buttons:
+    - `onClick: (e: Event) => { e.stopPropagation(); handleEdit(row) }`
+  - Keep actions **visible on all rows** (no hidden-on-hover patterns)
+- ✅ **Reusability**:
+  - Reuse the same action column pattern across:
+    - Store management
+    - Expense category management
+    - Category management
+    - Assessment method management
+  - When adding a new management screen, **start from an existing action-column implementation** and adapt only the entity-specific handlers
+
+### API Create/Update Guidelines
+
+- ✅ **Core API (create/update)** — same rules as reads:
+  - Methods in `src/apis/cores/*-api.ts` call the backend and map **DTO → domain model** in the **core** layer (see **`.agents/rules/data-model.md`** and **`api-rule.md`**).
+  - **Service hooks** (`src/apis/services/**`) unwrap `response.data`, treat values as **models**, and expose them to views/stores — **no** DTO mapping inside components or inside hooks beyond unwrapping.
+
+### Disabled Input Style Guidelines (Common for ID/read-only fields)
+
+**When displaying read-only fields (IDs, system-controlled values) in dialogs:**
+
+- ✅ Use the `Input` atom with:
+  - `disabled` attribute set
+  - `class="bg-neutral-100"` to match the standard disabled background used in store edit screens
+- ✅ Typical usage:
+  - Show IDs (e.g. `店舗ID`, `経費分類ID`, `査定方法ID`) in **edit dialogs only**
+  - Do **not** show these fields in create mode
+- ✅ Do **not** introduce custom one-off disabled styles:
+  - If a different disabled style is truly needed, define a **reusable utility class** in `src/style.css` under `@layer utilities` and reference it consistently
+
+## Unit Testing Rules
+
+**Stack:**
+
+- Test runner: **Vitest** (`pnpm test`, `pnpm test:watch`, `pnpm test:ui`, `pnpm test:coverage`)
+- Test location: `tests/unit/**` (mirrors `src/**` by domain)
+- HTTP mocking: **MSW** (see `tests/setup.ts` and MSW guides if added later)
+
+**Coverage Targets (overall direction):**
+
+- **Business logic (apis, models, stores, validators, utilities)**: **90–95%+**
+- **Complex views/components (forms, tables with actions)**: **80–90%+** on important paths
+- Simple presentational components: lower priority; test only when they contain logic.
+
+**When adding or changing code, prefer: test‑first or test‑along.**
+
+### What must have tests
+
+- API cores in `src/apis/cores/**` (request params, mapping, error handling)
+- API services/hooks in `src/apis/services/**` (loading/success/error states)
+- Models (`src/models/**`) with `fromApi`/`fromApiList` or computed getters
+- Shared validators and utilities (`src/lib/**`, `src/lib/validators/**`)
+- Stores with business logic (`src/stores/**`)
+- Views/components that contain **non‑trivial logic** (forms, CRUD flows, branching UI)
+
+### Test placement & naming
+
+- Place test files in `tests/unit/...` mirroring `src/...` structure.
+  - Example: `src/apis/cores/expense-api.ts` → `tests/unit/apis/cores/expense-api.test.ts`
+- Name tests: `{name}.test.ts` / `{name}.test.tsx` / `{name}.test.vue` depending on SFC vs TS.
+- Test names: `should [behavior] when [condition]`.
+
+### Patterns & good practices
+
+- ✅ Use **AAA pattern** (Arrange–Act–Assert) with clear comments in complex tests.
+- ✅ Prefer **behavioral assertions** (what user sees/what function returns), not implementation details.
+- ✅ Use **MSW** for HTTP where possible instead of manually mocking fetch/axios in every test.
+- ✅ Use `vi.mock` for internal modules (stores, composables, utilities) when isolating units.
+- ✅ Keep one logical scenario per test; avoid if/else inside tests.
+- ✅ Use `test.each` for the same logic with multiple inputs instead of copy‑pasting tests.
+- ❌ Do **not** snapshot‑test large components by default; prefer specific assertions.
+- ❌ Do **not** test third‑party library internals (React Query, TanStack Form, etc.).
+
+### Minimum coverage per unit (guideline)
+
+For each important unit (API core/service, model, store, complex view/component):
+
+- [ ] Happy path (normal success flow)
+- [ ] Error paths (API error, thrown exception, invalid input)
+- [ ] Edge cases (boundary values, empty lists, null/undefined paths)
+- [ ] State variants (loading / error / empty) where applicable
+- [ ] Conditional branches (if/else, early returns)
+
+### Running tests before delivery
+
+Before considering a task "done":
+
+- ✅ Run `pnpm test:run` for the affected domain/tests.
+- ✅ Run `pnpm test:coverage` and quickly inspect:
+  - New/changed files have coverage aligned with the goals above.
+  - Any intentionally untested branches are documented in code comments or PR description.
+
+### DO
+
+- ✅ Use pnpm for all package operations
+- ✅ Use shadcn-vue CLI for component installation
+- ✅ Run `pnpm lint` (or `pnpm lint --fix` when the user wants fixes applied) after substantive edits
+- ✅ Report lint errors without fixing
+- ✅ Follow TypeScript best practices
+- ✅ Use proper component layering
+- ✅ Write clean, readable code
+- ✅ Use meaningful variable names
+- ✅ Add proper TypeScript types
+- ✅ Control dialog click outside behavior using `closeOnClickOutside` prop
+- ✅ Follow ConfirmDialog pattern for delete confirmations (see above)

@@ -1,0 +1,18 @@
+---
+alwaysApply: true
+description: >-
+  Money display rules (VND): [number]₫, dot separators, and no decimals.
+---
+
+# Money Display
+
+## Format Requirements
+
+- Always display amounts in the format `[number]₫` (e.g., `1.234₫`).
+- Use dot (`.`) as the thousands separator.
+- Do not display any decimal places.
+- If decimals exist, round to the nearest whole number.
+
+## Money Input Constraints
+
+- Money input fields must allow a maximum of 10 characters.

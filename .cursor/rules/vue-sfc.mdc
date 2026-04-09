@@ -1,0 +1,27 @@
+---
+description: Chuẩn SFC Vue 3 + skill map (component, Tailwind, VueUse, debug).
+globs: "**/*.vue"
+alwaysApply: false
+---
+
+# Vue SFC — team conventions
+
+## Trước khi sửa / thêm component
+
+1. Đọc `.agents/skills/vue-best-practices/SKILL.md` (workflow + `references/` khi feature không tầm thường).
+2. API cụ thể (macros, lifecycle, Transition…): `.agents/skills/vue/SKILL.md`.
+3. **Styling:** `.agents/skills/tailwind-css-patterns/SKILL.md` — mobile-first, token, tránh nhét logic vào class string dài vô hạn; tách layout/component lặp lại.
+4. **Logic tái sử dụng / tương tác trình duyệt:** `.agents/skills/vueuse-functions/SKILL.md` — ưu tiên VueUse thay vì tự viết hook nếu đã có trong dự án.
+5. **Bug khó / re-render / watch / template:** `.agents/skills/vue-debug-guides/SKILL.md`.
+
+## Nguyên tắc review (áp dụng khi agent hoặc dev chỉnh sửa)
+
+- **Một SFC một trách nhiệm rõ**; route view / layout chỉ compose, không nhồi cả feature CRUD vào một file trừ demo nhỏ.
+- **Hợp đồng rõ:** `defineProps` / `defineEmits` / `defineModel` có kiểu; tránh props “vừa object vừa mọi thứ”.
+- **Template khai báo** — nhánh và dữ liệu suy ra đưa vào `computed`; tránh gọi hàm có side effect trong template.
+- **Không copy-paste block lớn** — tách child component hoặc composable (`composables/use*.ts`).
+
+## Đồng bộ với repo đông người
+
+- Tuân theo cấu trúc thư mục feature hiện có; không đổi kiến trúc trong cùng PR với fix nhỏ trừ khi task yêu cầu.
+- Thay đổi hành vi công khai (props/emits/slots): cân nhắc chỗ gọi và cập nhật tối thiểu một lần, tránh để “chỗ khác vẫn truyền sai”.

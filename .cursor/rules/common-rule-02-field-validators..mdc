@@ -1,0 +1,54 @@
+---
+alwaysApply: true
+description: >-
+  Common form validation rules for phone/postcode/email/name/furigana/birthday/range time, including standard error messages (required/max length).
+---
+
+# Phone Number (電話番号) Validation Spec
+
+- Placeholder: `090-1234-5678`
+- Allowed input: halfsize digits (`0-9`) totaling 10~11 digits; `-` (hyphen) may be typed as a separator (hyphen is not counted in the length).
+- Validation rule: ignore `-` when counting digits; ensure only halfsize digits are used.
+- When saving to DB: remove/strip `-` and store only digits.
+- When displaying: show with `-` (e.g. `090-1234-5678`, `03-1234-5678`).
+- Message error: `電話番号は半角数字で10〜11桁で入力してください。（ハイフン可）`
+
+## Postcode (郵便番号)
+
+- Placeholder: `100-1000`
+- Allowed input: halfsize digits (`0-9`) totaling 7 digits; `-` (hyphen) may be typed as a separator (hyphen is not counted in the length).
+- When saving to DB: remove/strip `-` and store only digits.
+- When displaying: show with `-` (e.g. `100-1000`).
+- Message error: `郵便番号は、7桁の半角数字で入力してください。（ハイフン可）`
+
+## Email
+
+- Max length: 255 characters
+- Validation rule: must be a valid email format (must include `@`)
+- Message error: `メールアドレスは、有効なメールアドレス形式で指定してください。`
+
+## Name fields (customer_name, product_name, ...)
+
+- Max length: 255 characters
+
+## Furigana name (フリガナ)
+
+- Max length: 255 characters
+- Message error: フリガナはカタカナで入力してください。
+
+## Birthday
+
+- Birthday: disable selecting any future date.
+
+## Range time
+
+- Condition: `Date from <= Date to`
+- Message: `終了日は開始日以降を選択してください。`
+
+## Required field error message
+
+- Message: `${label}は、必ず指定してください。`
+
+## Max length error message
+
+- Message: `${label}は、${max}文字以下にしてください。`

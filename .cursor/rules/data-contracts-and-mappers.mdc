@@ -1,0 +1,13 @@
+---
+description: Quy tắc data contract, DTO mapping, và anti-corruption layer.
+alwaysApply: true
+---
+
+# Data Contracts & Mappers
+
+- **Không để API shape đi thẳng vào UI:** dữ liệu từ API phải qua mapper/normalizer trước khi dùng trong component/store.
+- **Tách model rõ ràng:** định nghĩa `Dto` và `Domain` type riêng; không dùng chung một type cho cả backend payload và UI state.
+- **Mapper đặt đúng chỗ:** ưu tiên `services/mappers/` hoặc module domain tương ứng; component không tự map thủ công nhiều nơi.
+- **Enum/status chuẩn hóa một lần:** map giá trị backend (`snake_case`, magic string) thành format frontend thống nhất (`camelCase`, union type).
+- **Nullability minh bạch:** xử lý `null/undefined` ngay ở mapper để UI không phải rải điều kiện phòng thủ khắp nơi.
+- **Backward compatibility:** khi API thay đổi field, cập nhật mapper trước; hạn chế sửa lan rộng qua nhiều component.

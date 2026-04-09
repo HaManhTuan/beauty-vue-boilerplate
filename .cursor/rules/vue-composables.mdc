@@ -1,0 +1,18 @@
+---
+description: Composables — VueUse ưu tiên, tái sử dụng logic.
+globs: "**/composables/**"
+alwaysApply: false
+---
+
+# Composables (`**/composables/**`)
+
+## Skill chính
+
+- `.agents/skills/vueuse-functions/SKILL.md` — kiểm tra bảng function và `references/*.md` trước khi viết hook tùy biến.
+- Nền tảng Vue: `.agents/skills/vue-best-practices/SKILL.md` (mục composables + `references/composables.md`).
+
+## Nguyên tắc team
+
+- **Một composable một mục đích** (`useUserFilters`, `useTablePagination`…) — tên file = export chính, dễ grep trong monorepo.
+- **Phụ thuộc rõ:** tham số đầu vào và giá trị trả về typed; tránh global singleton ẩn trừ khi team đã chuẩn hóa (khi đó dùng pattern VueUse `createSharedComposable` / tài liệu skill).
+- **Tái sử dụng:** ưu tiên gọi VueUse đã có dependency trong `package.json`; nếu thêm dependency mới, align với maintainer (không tự thêm lib nặng trong PR nhỏ trừ khi được phê duyệt).

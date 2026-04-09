@@ -1,0 +1,14 @@
+---
+description: Points to Agent Skills location — details live in each SKILL.md (see also AGENTS.md).
+alwaysApply: true
+---
+
+# Agent Skills (`.agents/skills/`)
+
+- **Canonical layout:** each skill folder has `SKILL.md` plus `reference/` or `references/`; read those files when implementing that area.
+- **Context rules:** when editing `.vue`, `stores/`, `router/`, `composables/`, Tailwind config, **animation** (`.vue`, `.css`), or **`supabase/`** / **`.sql`** / migrations, the matching Cursor rule loads — prefer that rule over relying only on this index.
+- **Animation:** skill **`animate`** — default **[Animate.css](https://animate.style/)** v4 (`animate__` prefix) with Vue/Tailwind; respect **`prefers-reduced-motion`**. See `.agents/skills/animate/SKILL.md`.
+- **Postgres / Supabase:** skill **`supabase-postgres-best-practices`** — queries, indexes, schema, RLS, pooling; read `SKILL.md` then `references/` files by prefix (`query-`, `conn-`, `security-`, …).
+- **Default frontend stack:** Vue 3, Composition API, `<script setup lang="ts">`, unless the codebase or task says otherwise.
+
+**Precedence:** see root **`AGENTS.md`** (`.cursorrules` → `.agents/rules/` → `.cursor/rules/` → skills).

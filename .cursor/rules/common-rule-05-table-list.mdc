@@ -1,0 +1,27 @@
+---
+alwaysApply: true
+description: >-
+  Table list UI rules: empty state text, pagination options/default, fixed width with ellipsis+tooltip, no row click detail.
+---
+
+# Table List Display (List)
+
+## Empty state
+- Empty text: `No matching records found.`
+- This message must be shown for both cases:
+  - No data exists.
+  - Search has no results.
+
+## Pagination
+- Options: `10`, `25`, `50`, `100`
+- Default: `25`
+
+## Column width & long text
+- Columns must use fixed width.
+- If text is too long:
+  - Display `...` (ellipsis) instead of wrapping.
+  - On hover, show a tooltip with the full content.
+
+## Row click behavior
+- Do NOT enable opening detail by clicking a table row.
+- There is already a dedicated `detail` button, so row click must not trigger navigation/detail opening.

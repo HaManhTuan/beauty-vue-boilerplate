@@ -1,0 +1,13 @@
+---
+description: Quality gate tối thiểu để giữ code sạch, ổn định, dễ review.
+alwaysApply: true
+---
+
+# Quality Gates
+
+- **Small PR mindset:** ưu tiên thay đổi nhỏ, tập trung một mục tiêu; tránh trộn refactor lớn với fix nhỏ.
+- **Không để dead code mới:** cấm thêm code/comment/todo không dùng mà không có lý do rõ.
+- **Ưu tiên type an toàn:** tránh `any` và ép kiểu bừa; nếu bắt buộc, phải giới hạn phạm vi và có ghi chú ngắn.
+- **Kiểm tra trước khi kết thúc task:** chạy lint/typecheck cho phạm vi thay đổi; sửa lỗi mới phát sinh trước khi bàn giao.
+- **Giữ API nội bộ ổn định:** đổi props/emits/store contract phải cập nhật call-site liên quan trong cùng thay đổi.
+- **Document decision ngắn:** với quyết định kỹ thuật không hiển nhiên, thêm chú thích ngắn hoặc ghi rõ trong mô tả task/PR.

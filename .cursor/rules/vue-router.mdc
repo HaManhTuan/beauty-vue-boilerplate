@@ -1,0 +1,22 @@
+---
+description: Vue Router — guards, params, lifecycle; skill map.
+globs: "**/router/**,**/routes/**"
+alwaysApply: false
+---
+
+# Vue Router (`**/router/**`)
+
+## Skill bắt buộc tham chiếu
+
+- `.agents/skills/vue-router-best-practices/SKILL.md` — đặc biệt guard async/await, không lạm dụng `next()`, cùng route khác params, cleanup listener, tránh vòng redirect.
+
+## Nguyên tắc team
+
+- **Guard:** side effect mạng phải await đúng cách; tránh race khi user điều hướng nhanh.
+- **Cùng component, khác `params`/`query`:** không giả định lifecycle remount — watch route hoặc pattern trong skill “param change”.
+- **Meta & quyền:** tập trung ở một lớp (meta + guard hoặc helper) để mọi route mới không tự nghĩ rule riêng.
+- **Đặt tên route:** nhất quán với menu và deep link; đổi path cần kiểm tra redirect cũ nếu có.
+
+## Nếu cấu trúc dự án dùng `routes/` thay vì `router/`
+
+- Thêm glob tương tự hoặc gom file cấu hình vào `**/router/**` để rule vẫn khớp — team nên thống nhất một chỗ đặt định nghĩa route.
