@@ -15,13 +15,14 @@
 
 When creating new components:
 
-1. **Atoms** (`src/components/atoms/`)
-   - Base shadcn-vue components
-   - Use `pnpm dlx shadcn-vue@latest add <component>` to install
+1. **UI primitives** (`src/components/ui/`)
+   - Base **shadcn-vue / Reka UI** components (CLI output; see root `components.json` alias `"ui": "@/components/ui"`)
+   - Use `pnpm dlx shadcn-vue@latest add <component>` to install — files land under `src/components/ui/<name>/`
+   - In Atomic Design terms this layer is the **“atoms”** folder; **this repo uses `ui/`, not `atoms/`**
    - No Storybook required
 
 2. **Molecules** (`src/components/molecules/`)
-   - Complex components composed from atoms
+   - Complex components composed from **`@/components/ui/*`**
    - Custom business logic and compositions
    - No Storybook required unless explicitly requested
 
@@ -38,7 +39,7 @@ When creating new components:
 - Use Tailwind CSS for styling
 - Use `cn()` utility from `@/lib/utils` for conditional classes
 - Follow shadcn-vue styling patterns
-- Use proper component layering (**atoms → molecules → views** for pages; generic Atomic Design docs may say “containers” — in this repo that maps to **`src/views/{module}/`**)
+- Use proper component layering (**`ui` primitives → molecules → views** for pages; generic Atomic Design docs may say “atoms” or “containers” — **atoms = `src/components/ui/`**, **containers** map to **`src/views/{module}/`**)
 
 ### Package Management
 
@@ -109,7 +110,7 @@ pnpm lint
 
 **When using Dialog components:**
 
-- ✅ Use `DialogContent` from `@/components/atoms/dialog` for all dialogs
+- ✅ Use `DialogContent` from **`@/components/ui/dialog`** for all dialogs (install with `pnpm dlx shadcn-vue@latest add dialog` if the module is not present yet)
 - ✅ Control click outside behavior using `closeOnClickOutside` prop:
   - Set `closeOnClickOutside={false}` to prevent dialog from closing when clicking outside
   - Default is `true` (dialog closes on outside click)
@@ -134,7 +135,7 @@ Example:
 **When using ConfirmDialog for delete confirmations:**
 
 - ✅ Use `ConfirmDialog` from `@/components/molecules/confirm-dialog` for delete confirmations
-- ✅ Follow the standard pattern used in `StoreManagement.vue`:
+- ✅ Follow the standard **ConfirmDialog** pattern (entity ID + name in the message, Japanese button labels); reuse the same structure across list screens:
   ```vue
   <ConfirmDialog
     v-model="isDeleteDialogOpen"
@@ -210,10 +211,10 @@ Example:
   - Center-align the column (`align: 'center'` or `justify-center`)
   - Use a container like `class="flex items-center justify-center gap-2"` inside the cell
 - ✅ **Buttons & labels**:
-  - Use `Button` atoms for actions with clear Japanese labels:
+  - Use **`Button`** from `@/components/ui/button` for actions with clear Japanese labels:
     - **Edit**: label `編集` with pencil icon (`Pencil` or `Edit`)
     - **Delete**: label `削除` with trash icon (`Trash2`)
-  - Follow the visual style used in `StoreManagement.vue` (canonical example) for spacing, icon size, and colors
+  - Keep spacing, icon size, and colors consistent across management tables (see **`TableDemo.vue`** in this repo for a minimal table + button example)
 - ✅ **Interaction behavior**:
   - Always stop row click propagation for action buttons:
     - `onClick: (e: Event) => { e.stopPropagation(); handleEdit(row) }`
@@ -236,7 +237,7 @@ Example:
 
 **When displaying read-only fields (IDs, system-controlled values) in dialogs:**
 
-- ✅ Use the `Input` atom with:
+- ✅ Use **`Input`** from `@/components/ui/input` with:
   - `disabled` attribute set
   - `class="bg-neutral-100"` to match the standard disabled background used in store edit screens
 - ✅ Typical usage:

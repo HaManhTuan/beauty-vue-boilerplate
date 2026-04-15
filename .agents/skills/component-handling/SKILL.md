@@ -11,9 +11,11 @@ metadata:
 
 Comprehensive guide for organizing Vue components using Atomic Design principles. Contains 20+ rules across 5 categories, prioritized by impact to guide component placement and refactoring.
 
-## Repository mapping (beauty-vuets-boilerplate)
+## Repository mapping (beauty-vue-boilerplate)
 
 This repo uses **`src/views/{module}/`** for feature-specific pages and modals. In generic Atomic Design terms, **“feature / container”** placement maps to **`src/views/<module>/`**, not a separate `src/containers/` tree. Shared rules: **`.agents/rules/structure.md`**, **`.cursorrules`**.
+
+**UI “atoms” path:** shadcn-vue CLI installs primitives under **`src/components/ui/`** (see root `components.json`, alias `"ui": "@/components/ui"`). When linked **placement / hierarchy** rules or examples say `atoms/` or `@/components/atoms/…`, translate to **`src/components/ui/`** and **`@/components/ui/…`** in this repository.
 
 ## When to Apply
 

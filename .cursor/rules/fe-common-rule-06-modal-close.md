@@ -174,5 +174,5 @@ const handleDeleteCancel = () => {
 
 | Concern                 | File                                                               |
 | ----------------------- | ------------------------------------------------------------------ |
-| DialogContent atom      | `src/components/atoms/dialog/DialogContent.vue`                    |
+| DialogContent           | `src/components/ui/dialog/DialogContent.vue` (after `shadcn-vue add dialog`) |
 | Project CRUD rules      | `.cursorrules` (Dialog + Form & CRUD sections)                     |

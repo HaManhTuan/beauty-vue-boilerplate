@@ -1,6 +1,6 @@
 ---
 name: project-conventions
-description: 'Apply project-specific conventions for structure, naming, data models, and API layer in beauty-vuets-boilerplate. Use when checking file location, folder structure, naming, and how models/APIs are wired (especially during code review).'
+description: 'Apply project-specific conventions for structure, naming, data models, and API layer in beauty-vue-boilerplate. Use when checking file location, folder structure, naming, and how models/APIs are wired (especially during code review).'
 ---
 
 # Project Conventions
@@ -47,7 +47,7 @@ Apply these checks when reviewing code:
 ### 1. Structure & Location (`structure.md`)
 
 - [ ] Files live in the correct **top-level directory**:
-  - Components under `src/components/` (atoms/molecules); feature pages and module modals under **`src/views/{module}/`** (see `structure.md`; generic “containers” in Atomic Design docs map here).
+  - Components under `src/components/` (**`ui/`** primitives + `molecules/`); feature pages and module modals under **`src/views/{module}/`** (see `structure.md`; generic “atoms” in docs = **`src/components/ui/`**; “containers” map here).
   - APIs under `src/apis/cores/**` and `src/apis/services/**`.
   - Models under `src/models/**`.
   - Stores under `src/stores/**`.
@@ -59,7 +59,7 @@ Apply these checks when reviewing code:
 
 - [ ] File names follow the rules:
   - General TS files in **kebab-case** (e.g. `store-api.ts`, `use-stores.ts`).
-  - Vue SFCs use **PascalCase.vue** (e.g. `StoreManagement.vue`, `AppHeader.vue`).
+  - Vue SFCs use **PascalCase.vue** (e.g. `TableDemo.vue`, `AppHeader.vue`).
 - [ ] Classes and models use **PascalCase**:
   - Core APIs: `StoreApi`, `StaffApi`.
   - Models: `StoreModel`, `StaffModel`.

@@ -33,7 +33,7 @@ Use `FormField` from `src/components/molecules/field/Field.vue` with TanStack `f
 ```vue
 <script setup lang="ts">
 import FormField from '@/components/molecules/field/Field.vue'
-import { Input } from '@/components/atoms/input'
+import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 
 const hasError = (field: {
@@ -184,4 +184,4 @@ const handleFormSuccess = () => {
 | Success toast composable | `src/composables/use-success-toast.ts`                                        |
 | Login error example      | `src/views/Login.vue`                                                         |
 | Form error example       | `src/views/expense-management/expense-add-edit-modal/ExpenseAddEditModal.vue` |
-| Delete flow example      | `src/views/store-management/StoreManagement.vue`                              |
+| Table + actions example   | `src/views/TableDemo.vue` (patterns only; extend for real CRUD screens)       |
