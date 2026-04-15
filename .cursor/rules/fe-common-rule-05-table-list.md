@@ -172,7 +172,7 @@ Every management table has an action column with Edit and Delete buttons.
 ```ts
 import { h } from 'vue'
 import { Pencil, Trash2 } from 'lucide-vue-next'
-import { Button } from '@/components/atoms/button'
+import { Button } from '@/components/ui/button'
 
 {
   key: 'actions',

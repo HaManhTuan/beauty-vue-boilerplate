@@ -10,7 +10,7 @@ Skill này giúp AI (và bạn) thiết kế **giao diện web có cá tính, ch
 - Chọn **typography, màu, layout, chuyển động, nền** có chủ đích, không lặp lại mẫu sáo rỗng.
 - Viết **code chạy được** (HTML/CSS/JS, Vue, React, …) phù hợp ngữ cảnh bạn mô tả.
 
-**Không thay thế** design system của dự án — xem mục “Trong repo beauty-vuets-boilerplate” bên dưới.
+**Không thay thế** design system của dự án — xem mục “Trong repo beauty-vue-boilerplate” bên dưới.
 
 ---
 
@@ -34,7 +34,7 @@ Skill này giúp AI (và bạn) thiết kế **giao diện web có cá tính, ch
 
 ---
 
-## Trong repo **beauty-vuets-boilerplate**
+## Trong repo **beauty-vue-boilerplate**
 
 Thứ tự khuyến nghị khi làm giao diện **trong dự án này** (khớp **`AGENTS.md`**):
 

@@ -24,13 +24,13 @@ This document describes the high-level structure of the project and where differ
 
 ### 2. Components
 
-- `src/components/atoms/`
-  - Lowest-level UI primitives (buttons, inputs, selects, etc.).
-  - Mostly wrap shadcn-vue/radix-vue with project-specific styling.
+- `src/components/ui/`
+  - Lowest-level UI primitives installed by **shadcn-vue CLI** (buttons, inputs, sidebar, etc.); see root `components.json` (`"ui": "@/components/ui"`).
+  - Atomic Design calls this the **“atoms”** layer — **this repository uses the folder name `ui/`, not `atoms/`.**
 
 - `src/components/molecules/`
-  - Composed components built from atoms (e.g. `AppHeader`, `AppSidebar`).
-  - **Reusable components**: Before creating a new molecule component, always check if a suitable component already exists in `src/components/molecules/` or `src/components/atoms/`.
+  - Composed components built from **`@/components/ui/*`** (e.g. `AppHeader`, `AppSidebar`).
+  - **Reusable components**: Before creating a new molecule component, always check if a suitable component already exists in `src/components/molecules/` or `src/components/ui/`.
     - Common reusable components that may already exist:
       - Tables: `src/components/molecules/data-table`
       - Delete confirmations: `src/components/molecules/confirm-dialog`
